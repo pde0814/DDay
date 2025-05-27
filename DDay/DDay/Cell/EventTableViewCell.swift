@@ -18,9 +18,17 @@ class EventTableViewCell: UITableViewCell {
     @IBOutlet weak var containerView: UIView!
 
     override func awakeFromNib() {
-        super.awakeFromNib()
+        super.awakeFromNib() // viewdidload와 같음
         // Initialization code
+
+        containerView.layer.cornerRadius = 20
+        containerView.clipsToBounds = true
     }
+
+    // 많이하는 실수
+//    override class func awakeFromNib() {
+//        super.awakeFromNib()
+//    }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
