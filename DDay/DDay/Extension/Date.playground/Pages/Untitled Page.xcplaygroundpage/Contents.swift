@@ -7,6 +7,9 @@ Date.today.days(from: worldCup2002Date)
 
 Date.today
 
+let event = Event(date: worldCup2002Date, title: "2002 월드컵 개막일", backgroundColor: .red, textColor: .white, icon: "")
+
+event.dayString
 // -------------------------
 
 // 구조체 날짜 타입
