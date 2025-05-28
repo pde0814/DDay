@@ -256,7 +256,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="inline" translatesAutoresizingMaskIntoConstraints="NO" id="qg7-Y0-SOa">
-                                <rect key="frame" x="20" y="156" width="353" height="347"/>
+                                <rect key="frame" x="20" y="155.99999999999997" width="353" height="347.33333333333326"/>
                                 <connections>
                                     <action selector="dateSelected:" destination="ro1-55-bNJ" eventType="valueChanged" id="tsE-k5-Nme"/>
                                 </connections>
@@ -326,7 +326,7 @@
                                             </label>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="yit-u9-BRG">
                                                 <rect key="frame" x="0.0" y="25.333333333333329" width="353" height="50"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="z2k-AZ-lhu"/>
                                                 </constraints>
@@ -382,7 +382,7 @@
                                             </label>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="95E-4p-zgZ">
                                                 <rect key="frame" x="0.0" y="25.333333333333314" width="353" height="50"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="gXm-JV-aVL"/>
                                                 </constraints>
@@ -450,7 +450,7 @@
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vUc-K2-dNQ"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="NkB-kI-J6d" firstAttribute="leading" secondItem="vUc-K2-dNQ" secondAttribute="leading" constant="20" id="Hfj-Zw-Gxw"/>
                             <constraint firstItem="NkB-kI-J6d" firstAttribute="top" secondItem="vUc-K2-dNQ" secondAttribute="top" constant="20" id="Olr-zI-sS3"/>
@@ -506,6 +506,9 @@
         </systemColor>
         <systemColor name="systemYellowColor">
             <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="tertiarySystemGroupedBackgroundColor">
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

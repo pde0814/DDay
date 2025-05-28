@@ -58,7 +58,5 @@ extension ComposeViewController: UICollectionViewDataSource {
 
         return cell
     }
-    
-
 }
 
