@@ -28,6 +28,24 @@ extension Date {
         let calendar = Calendar.current
         return calendar.startOfDay(for: .now)
     }
+
+    var upcomingBirthDay: Date {
+        let calendar = Calendar.current // 1
+        let thisYear = calendar.component(.year, from: Self.today) // 2
+
+        var compos = calendar.dateComponents([.month, .day], from: self) // 3
+        compos.year = thisYear // 4
+
+        let date = calendar.date(from: compos) // 5
+
+        if let date, date < Self.today { // 6
+            compos.year = thisYear + 1 // 7
+
+            return calendar.date(from: compos) ?? self // 8
+        } else { // 9
+            return date ?? self
+        }
+    }
 }
 
 

@@ -51,42 +51,53 @@ struct Event {
     let title: String
     let backgroundColor: UIColor
     let textColor: UIColor
-    let icon: String
+//    let icon: String
+    let category: Category
 
     var dayString: String?
     var dateString: String?
     var iconImage: UIImage?
 
-    init(date: Date, title: String, backgroundColor: UIColor, textColor: UIColor, icon: String) {
+    init(date: Date, title: String, backgroundColor: UIColor, textColor: UIColor, category: Category) {
         self.date = date
         self.title = title
         self.backgroundColor = backgroundColor
         self.textColor = textColor
-        self.icon = icon
+        self.category = category
+//        self.icon = icon
 
-        if let day = date.days(from: Date.today) {
-            dayString = if day >= 0 { "D-\(abs(day))" } else { "D+\(abs(day))" }
-        } else {
-            dayString = nil
+        switch category {
+            case .birthday: // 2
+                if let day = date.upcomingBirthDay.days(from: Date.today) {
+                    dayString = if day >= 0 { "D-\(abs(day))" } else { "D+\(abs(day))" }
+                } else {
+                    dayString = nil
+                }
+            default: // 1
+                if let day = date.days(from: Date.today) {
+                    dayString = if day >= 0 { "D-\(abs(day))" } else { "D+\(abs(day))" }
+                } else {
+                    dayString = nil
+                }
         }
 
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy.MM.dd"
         dateString = formatter.string(from: date)
 
-        iconImage = UIImage(named: icon)
+        iconImage = UIImage(named: category.rawValue)
     }
 
     init(data: ComposeData) {
         // 원래는 강제추출 x
-        self.init(date: data.date!, title: data.title!, backgroundColor: data.backgroundColor!, textColor: data.textColor!, icon: data.category!.rawValue)
+        self.init(date: data.date!, title: data.title!, backgroundColor: data.backgroundColor!, textColor: data.textColor!, category: data.category!)
     }
 
 }
 
 var events = [
-    Event(date: Date(year: 2002, month: 5, day: 31), title: "한일 월드컵", backgroundColor: .systemBlue, textColor: .white, icon: "soccer"),
-    Event(date: Date(year: 2022, month: 11, day: 20), title: "카타르 월드컵", backgroundColor: .brown, textColor: .white, icon: "soccer"),
-    Event(date: Date(year: 2026, month: 6, day: 11), title: "북중미 월드컵", backgroundColor: .green, textColor: .black, icon: "soccer"),
-    Event(date: Date(year: 2025, month: 8, day: 14), title: "내 생일", backgroundColor: .yellow, textColor: .red, icon: "birthday")
+    Event(date: Date(year: 2002, month: 5, day: 31), title: "한일 월드컵", backgroundColor: .systemBlue, textColor: .white, category: .soccer),
+          Event(date: Date(year: 2022, month: 11, day: 20), title: "카타르 월드컵", backgroundColor: .brown, textColor: .white, category: .soccer),
+                Event(date: Date(year: 2026, month: 6, day: 11), title: "북중미 월드컵", backgroundColor: .green, textColor: .black, category: .soccer),
+                      Event(date: Date(year: 2025, month: 8, day: 14), title: "내 생일", backgroundColor: .yellow, textColor: .red, category: .birthday)
 ]
