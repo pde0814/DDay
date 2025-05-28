@@ -8,8 +8,25 @@
 import UIKit
 
 class CategoryViewController: UIViewController {
+    
+	var data = ComposeData()
+
     @IBOutlet weak var categoryCollectionView: UICollectionView!
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let cell = sender as? UICollectionViewCell {
+            if let indexPath = categoryCollectionView.indexPath(for: cell) {
+                //            print(#function)
+                if let vc = segue.destination as? DateSelectionViewController {
+                    data.category = Event.Category.allCases[indexPath.item]
+
+                    vc.data = data
+                }
+            }
+        }
+    }
+
+    // collection view compositional layout
     func setupLayout() {
         // item size
         let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.33), heightDimension: .estimated(120))
@@ -35,6 +52,7 @@ class CategoryViewController: UIViewController {
 
         setupLayout()
         isModalInPresentation = true
+        categoryCollectionView.delegate = self
 
     }
 
@@ -56,4 +74,11 @@ extension CategoryViewController: UICollectionViewDataSource {
     }
 
 
+}
+
+
+extension CategoryViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(#function)
+    }
 }

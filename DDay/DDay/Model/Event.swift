@@ -76,6 +76,12 @@ struct Event {
 
         iconImage = UIImage(named: icon)
     }
+
+    init(data: ComposeData) {
+        // 원래는 강제추출 x
+        self.init(date: data.date!, title: data.title!, backgroundColor: data.backgroundColor!, textColor: data.textColor!, icon: data.category!.rawValue)
+    }
+
 }
 
 var events = [

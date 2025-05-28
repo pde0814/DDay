@@ -7,7 +7,16 @@
 
 import UIKit
 
+extension Notification.Name {
+    static let eventDidInsert = Notification.Name("eventDidInsert")
+}
+
 class ComposeViewController: UIViewController {
+
+    var data: ComposeData?
+
+    var selectedBackgroundColorIndexPath: IndexPath?
+    var selectedTextColorIndexPath: IndexPath?
 
     @IBOutlet weak var backgroundColorCollectionView: UICollectionView!
     @IBOutlet weak var textColorCollectionView: UICollectionView!
@@ -15,7 +24,21 @@ class ComposeViewController: UIViewController {
 
 
     @IBAction func save(_ sender: Any) {
+        guard let text = titleField.text else {
+            return
+        }
 
+        data?.title = text
+        // 데이터 검증
+        // TODO: 경고창 등 입력값 없을 때 처리
+
+        if let data {
+            let event = Event(data: data)
+            events.append(event)
+        }
+
+        NotificationCenter.default.post(name: .eventDidInsert, object: nil)
+        dismiss(animated: true)
     }
 
     let colors: [UIColor] = [
@@ -37,6 +60,18 @@ class ComposeViewController: UIViewController {
         super.viewDidLoad()
     }
 
+    // TODO: date picker를 선택하면 그선택한 색을 보여주는 방법 고민해보고 적용
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        var item = Int.random(in: 0 ..< colors.count)
+        selectedBackgroundColorIndexPath = IndexPath(item: item, section: 0)
+        backgroundColorCollectionView.reloadData()
+
+        item = Int.random(in: 0 ..< colors.count)
+        selectedTextColorIndexPath = IndexPath(item: item, section: 0)
+        textColorCollectionView.reloadData()
+    }
 }
 
 extension ComposeViewController: UICollectionViewDataSource {
@@ -56,6 +91,14 @@ extension ComposeViewController: UICollectionViewDataSource {
             cell.colorImageView.tintColor = colors[indexPath.item]
         }
 
+        cell.checkmarkImageView.isHidden = true
+
+        if let selectedBackgroundColorIndexPath, selectedBackgroundColorIndexPath == indexPath, collectionView == backgroundColorCollectionView {
+            cell.checkmarkImageView.isHidden = false
+        } else if let selectedTextColorIndexPath, selectedTextColorIndexPath == indexPath, collectionView == textColorCollectionView {
+            cell.checkmarkImageView.isHidden = false
+        }
+
         return cell
     }
 }
@@ -70,20 +113,57 @@ extension ComposeViewController: UICollectionViewDelegate {
 
             present(colorPicker, animated: true)
         } else {
-            let target = colors[indexPath.item]
+            let selectedColor = colors[indexPath.item]
+
+            if collectionView == backgroundColorCollectionView {
+                data?.backgroundColor = selectedColor
+            } else {
+                data?.textColor = selectedColor
+            }
+
+            dump(data)
+        }
+
+        if collectionView == backgroundColorCollectionView {
+            if let selectedBackgroundColorIndexPath, selectedBackgroundColorIndexPath != indexPath {
+                if let cell = collectionView.cellForItem(at: selectedBackgroundColorIndexPath) as? ColorCollectionViewCell {
+                    cell.checkmarkImageView.isHidden = true
+                }
+            }
+
+            selectedBackgroundColorIndexPath = indexPath
+        } else {
+            if let selectedTextColorIndexPath, selectedTextColorIndexPath != indexPath {
+                if let cell = collectionView.cellForItem(at: selectedTextColorIndexPath) as? ColorCollectionViewCell {
+                    cell.checkmarkImageView.isHidden = true
+                }
+            }
+
+            selectedTextColorIndexPath = indexPath
+        }
+
+        if let cell = collectionView.cellForItem(at: indexPath) as? ColorCollectionViewCell {
+            cell.checkmarkImageView.isHidden = false
         }
     }
 }
 
 extension ComposeViewController: UIColorPickerViewControllerDelegate {
     func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
-        print(#function) // 나중에
+//        print(#function) // 나중에
     }
 
     func colorPickerViewController(_ viewController: UIColorPickerViewController, didSelect color: UIColor, continuously: Bool) {
-        print(#function, color, continuously) // 나중에
+//        print(#function, color, continuously) // 나중에
         if !continuously {
-            
+            if viewController.title == "배경색" {
+                data?.backgroundColor = color
+            } else {
+                data?.textColor = color
+            }
+
+            print(data?.backgroundColor)
+            print(data?.textColor)
         }
     }
 }

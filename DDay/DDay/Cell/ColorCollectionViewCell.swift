@@ -9,7 +9,7 @@ import UIKit
 
 class ColorCollectionViewCell: UICollectionViewCell {
 
-
+    @IBOutlet weak var checkmarkImageView: UIImageView!
 
     @IBOutlet weak var colorImageView: UIImageView!
 }
