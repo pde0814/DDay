@@ -15,6 +15,7 @@ class DateSelectionViewController: UIViewController {
     @IBOutlet weak var selectedDateLabel: UILabel!
     @IBOutlet weak var datePicker: UIDatePicker!
 
+    // TODO: Calender Mode를 UserDefaults에 저장하기
     @IBAction func toggleCalendarMode(_ sender: UIBarButtonItem) {
         if datePicker.datePickerStyle == .wheels {
             datePicker.preferredDatePickerStyle = .inline

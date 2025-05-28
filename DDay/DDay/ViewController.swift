@@ -15,9 +15,39 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var eventTableView: UITableView!
 
+    var sortedEvents = [Event]()
+    // 사용자가 입력한거 저장해놓아야하고
+    // userdefault를 사용
+    // file이나 큰데이터는 저장 x
+    var sortType: SortType {
+        let type = UserDefaults.standard.integer(forKey: "sort")
+        return SortType(rawValue: type) ?? .futureFirst
+    }
+
+    @IBAction func toggleSort(_ sender: Any) {
+        sortType.toggle()
+
+        switch sortType {
+        case .futureFirst:
+            sortedEvents = events.sorted { $0.daysLeft > $1.daysLeft }
+        case .pastFirst:
+            sortedEvents = events.sorted { $0.daysLeft < $1.daysLeft }
+        }
+
+        eventTableView.reloadData()
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+
+        switch sortType {
+        case .futureFirst:
+            sortedEvents = events.sorted { $0.daysLeft > $1.daysLeft }
+        case .pastFirst:
+            sortedEvents = events.sorted { $0.daysLeft < $1.daysLeft }
+        }
+
+        eventTableView.reloadData()
 
         NotificationCenter.default.addObserver(forName: .eventDidInsert, object: nil, queue: .main) { [weak self] _ in
             self?.eventTableView.reloadData()
@@ -27,13 +57,13 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return events.count
+        return sortedEvents.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: EventTableViewCell.self), for: indexPath) as! EventTableViewCell
 
-        let target = events[indexPath.row]
+        let target = sortedEvents[indexPath.row]
         cell.iconImageView.image = target.iconImage
         cell.titleLabel.text = target.title
         cell.dateLabel.text = target.dateString

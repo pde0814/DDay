@@ -61,6 +61,7 @@ class ComposeViewController: UIViewController {
     }
 
     // TODO: date picker를 선택하면 그선택한 색을 보여주는 방법 고민해보고 적용
+    // TODO: 랜덤 컬러가 아니라 마지막에 선택했던 컬러가 선택되도록 수정
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
